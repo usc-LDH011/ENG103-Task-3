@@ -1,16 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Alarm System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haakvis Alarm System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #log {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
-<h1>Control the LED</h1>
-<p>{{ message }}</p>
-<form action="/led/on" method="get">
-    <button type="submit">Turn LED ON</button>
-</form>
-<form action="/led/off" method="get">
-    <button type="submit">Turn LED OFF</button>
-</form>
+<h1>Haakvis</h1>
+
+<button id="activateButton">Activate</button>
+<button id="snapshotButton">Snapshot</button>
+<button id="recordButton">Record</button>
+
+<div id="log"></div>
+
+<script>
+
+    const logContainer = document.getElementById('log');
+
+    const activateButton = document.getElementById('activateButton');
+    activateButton.addEventListener('click', function () {
+        if (activateButton.innerText === 'Activate') {
+            activateButton.innerText = 'Deactivate';
+            logMessage('System activated');
+        } else {
+            activateButton.innerText = 'Activate';
+            logMessage('System deactivated');
+        }
+    });
+
+    const snapshotButton = document.getElementById('snapshotButton');
+    snapshotButton.addEventListener('click', function () {
+        logMessage('Snapshot taken');
+    });
+
+    const recordButton = document.getElementById('recordButton');
+    recordButton.addEventListener('click', function () {
+        if (recordButton.innerText === 'Record') {
+            recordButton.innerText = 'Stop';
+            logMessage('Recording started');
+        } else {
+            recordButton.innerText = 'Record';
+            logMessage('Recording stopped');
+        }
+    });
+
+    function logMessage(message) {
+        const newLogEntry = document.createElement('p');
+        const now = new Date();
+        const timestamp = now.toLocaleString();
+        newLogEntry.textContent = `${message} - ${timestamp}`;
+        logContainer.prepend(newLogEntry);
+    }
+</script>
 </body>
 </html>
