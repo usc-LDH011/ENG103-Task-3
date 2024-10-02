@@ -34,11 +34,11 @@
 <div id="log"></div>
 
 <script>
-
     const logContainer = document.getElementById('log');
 
     const activateButton = document.getElementById('activateButton');
     activateButton.addEventListener('click', function () {
+        fetch('/toggle', { method: 'POST' });
         if (activateButton.innerText === 'Activate') {
             activateButton.innerText = 'Deactivate';
             logMessage('System activated');
@@ -71,6 +71,19 @@
         newLogEntry.textContent = `${message} - ${timestamp}`;
         logContainer.prepend(newLogEntry);
     }
+
+    setInterval(() => {
+        fetch('/get_logs')
+            .then(response => response.text())
+            .then(data => {
+                logContainer.innerHTML = '';
+                data.split('\n').forEach(log => {
+                    if (log) {
+                        logMessage(log);
+                    }
+                });
+            });
+    }, 1000000);
 </script>
 </body>
 </html>
