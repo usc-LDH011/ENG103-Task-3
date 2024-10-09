@@ -25,7 +25,7 @@ def log_message(message):
 
 @app.route('/')
 def index():
-    return render_template('WebControlPanel.html')
+    return render_template('index.html')
 
 @app.route('/toggle', methods=['POST'])
 def toggle():
@@ -33,7 +33,7 @@ def toggle():
     active = not active
     status = "activated" if active else "deactivated"
     log_message(f"System {status}")
-    return "", 204
+    return render_templatef('index.html')
 
 @app.route('/get_logs', methods=['GET'])
 def get_logs():
