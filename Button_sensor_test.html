@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Ultrasonic Sensor Control</title>
+    <script>
+        function toggleSensor() {
+            fetch('/toggle', { method: 'POST' })
+                .then(response => {
+                    console.log("Sensor state toggled");
+                });
+        }
+
+        function fetchLogs() {
+            fetch('/get_logs')
+                .then(response => response.json())
+                .then(data => {
+                    const logElement = document.getElementById("logMessages");
+                    logElement.innerHTML = "";
+                    data.logs.forEach(log => {
+                        const logEntry = document.createElement("p");
+                        logEntry.textContent = log;
+                        logElement.appendChild(logEntry);
+                    });
+                });
+        }
+
+        // Fetch logs every 2 seconds
+        setInterval(fetchLogs, 2000);
+    </script>
+</head>
+<body>
+    <h1>Ultrasonic Sensor Control Panel</h1>
+    <button onclick="toggleSensor()">Toggle Sensor</button>
+    <h2>Log Messages</h2>
+    <div id="logMessages"></div>
+</body>
+</html>
