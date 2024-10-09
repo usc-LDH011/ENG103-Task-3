@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonic Sensor Control</title>
+</head>
+<body>
+    <h1>Sonic Sensor Control</h1>
+
+    <p>System is currently: {{ 'Active' if system_active else 'Inactive' }}</p>
+
+    <form method="POST" action="/control">
+        {% if system_active %}
+        <button type="submit" name="action" value="Deactivate">Deactivate</button>
+        {% else %}
+        <button type="submit" name="action" value="Activate">Activate</button>
+        {% endif %}
+    </form>
+
+    <h2>Distance Measurement</h2>
+    <p id="distance">Waiting for activation...</p>
+
+    <script>
+        setInterval(function() {
+            fetch('/distance')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('distance').innerHTML = data;
+                });
+        }, 1000);
+    </script>
+</body>
+</html>
